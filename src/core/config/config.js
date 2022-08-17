@@ -1,0 +1,1 @@
+exports.baseUrl = "localhost:5000/api";
