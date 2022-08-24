@@ -3,10 +3,10 @@ import React from "react";
 import MapIcon from "@mui/icons-material/Map";
 import { Link } from "react-router-dom";
 
-export default function MapTile({ label }) {
+export default function MapTile({ label, id }) {
   return (
     <>
-      <ListItemButton component={Link} to="/simple-list">
+      <ListItemButton component={Link} to={`/map/${id}`}>
         <ListItemIcon>
           <MapIcon />
         </ListItemIcon>

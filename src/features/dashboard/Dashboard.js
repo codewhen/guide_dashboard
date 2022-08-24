@@ -48,7 +48,7 @@ export default function Dashboard() {
       <AppBar />
       <FabButton />
       {maps.map((e) => {
-        return <MapTile key={e["_id"]} label={e["name"]} />;
+        return <MapTile key={e["_id"]} label={e["name"]} id={e["_id"]} />;
       })}
     </div>
   );
