@@ -38,7 +38,7 @@ export default function ItemTile({ onClose, onChange }) {
           const lon = lonRef.current.value;
           onChange({ name, lat, lon });
         }}
-        type="number"
+        // type="number"
         id="outlined-required"
         label="Latitude"
         margin="normal"
@@ -57,7 +57,7 @@ export default function ItemTile({ onClose, onChange }) {
           const lon = lonRef.current.value;
           onChange({ name, lat, lon });
         }}
-        type="number"
+        // type="number"
         id="outlined-required"
         label="Longitude"
         margin="normal"

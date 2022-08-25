@@ -9,6 +9,7 @@ import ItemTile from "./components/ItemTile";
 import { Portal } from "react-portal";
 import { baseUrl } from "../../core/config/config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function MapDetail() {
   const [geojsons, setGeojsons] = useState([]);
@@ -20,6 +21,7 @@ export default function MapDetail() {
   const addressRef = useRef(null);
   const latRef = useRef(null);
   const lonRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     console.log("run");
@@ -75,6 +77,7 @@ export default function MapDetail() {
         }
       );
       setisLoading(false);
+      navigate("/");
 
       console.log(response);
     } catch (e) {
@@ -165,7 +168,7 @@ export default function MapDetail() {
             <TextField
               inputRef={latRef}
               required
-              type="number"
+              // type="number"
               id="outlined-required"
               label="Latitude"
               margin="normal"
@@ -178,7 +181,7 @@ export default function MapDetail() {
             <TextField
               inputRef={lonRef}
               required
-              type="number"
+              // type="number"
               id="outlined-required"
               label="Longitude"
               margin="normal"
