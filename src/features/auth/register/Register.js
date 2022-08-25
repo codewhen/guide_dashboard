@@ -43,7 +43,7 @@ export default function Register() {
 
     try {
       const response = await axios.post(`${baseUrl}/auth/signup`, {
-        header: headers,
+        headers: headers,
         email: email,
         password: password,
         name: orgName,

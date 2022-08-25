@@ -34,7 +34,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, {
-        header: headers,
+        headers: headers,
         email: email,
         password: password,
       });

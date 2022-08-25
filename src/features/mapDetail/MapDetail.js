@@ -1,14 +1,25 @@
 import { Box, Button, Container, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Form, Spinner } from "react-bootstrap";
 import AppBar from "../dashboard/components/AppBar";
 import UploadIcon from "@mui/icons-material/Upload";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "./MapDetails.module.css";
+import ItemTile from "./components/ItemTile";
+import { Portal } from "react-portal";
+import { baseUrl } from "../../core/config/config";
+import axios from "axios";
 
 export default function MapDetail() {
   const [geojsons, setGeojsons] = useState([]);
   const [geojsonFiles, setGeojsonFiles] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+  const [items, setItems] = useState([]);
+
+  const museumNameRef = useRef(null);
+  const addressRef = useRef(null);
+  const latRef = useRef(null);
+  const lonRef = useRef(null);
 
   const handleFileChange = (e) => {
     console.log("run");
@@ -35,6 +46,41 @@ export default function MapDetail() {
     };
     reader.readAsBinaryString(file);
   };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const museumName = museumNameRef.current.value;
+      const address = addressRef.current.value;
+      const geojsons = geojsonFiles;
+      const lat = latRef.current.value;
+      const lon = lonRef.current.value;
+      console.log(items);
+      const response = await axios.post(
+        `${baseUrl}/map/new`,
+        {
+          name: museumName,
+          placeName: address,
+          geojson: geojsons,
+          lat: lat,
+          lon: lon,
+          items: items,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("secret_token")}`,
+          },
+        }
+      );
+      setisLoading(false);
+
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <>
       <AppBar />
@@ -44,8 +90,9 @@ export default function MapDetail() {
             height: 28,
           }}
         />
-        <Form>
+        <Form onSubmit={onSubmit}>
           <TextField
+            inputRef={museumNameRef}
             required
             fullWidth
             id="outlined-required"
@@ -53,6 +100,7 @@ export default function MapDetail() {
             margin="normal"
           />
           <TextField
+            inputRef={addressRef}
             required
             fullWidth
             id="outlined-required"
@@ -115,6 +163,7 @@ export default function MapDetail() {
           />
           <div className={styles.rowdiv}>
             <TextField
+              inputRef={latRef}
               required
               type="number"
               id="outlined-required"
@@ -127,6 +176,7 @@ export default function MapDetail() {
               }}
             />
             <TextField
+              inputRef={lonRef}
               required
               type="number"
               id="outlined-required"
@@ -140,8 +190,49 @@ export default function MapDetail() {
               height: 18,
             }}
           />
+          {items.length > 0 && (
+            <p
+              style={{
+                textAlign: "left",
+                marginBottom: 0,
+              }}
+            >
+              Items List
+            </p>
+          )}
+          {items.map((e, i) => {
+            return (
+              <ItemTile
+                key={i}
+                onClose={() => {
+                  setItems((items) => {
+                    const exisitingItems = [...items];
+                    exisitingItems.pop();
+                    return exisitingItems;
+                  });
+                }}
+                onChange={(item) => {
+                  const existingItems = items;
+                  existingItems[i] = item;
+                  setItems(existingItems);
+                  console.log(items);
+                }}
+              />
+            );
+          })}
           <div className={styles.rowdiv}>
-            <Button variant="contained">Add Items</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setItems((items) => {
+                  const exisitingItems = [...items];
+                  exisitingItems.push({});
+                  return exisitingItems;
+                });
+              }}
+            >
+              Add Items
+            </Button>
           </div>
           <Box
             sx={{
@@ -149,6 +240,7 @@ export default function MapDetail() {
             }}
           />
           <Button
+            type="submit"
             fullWidth
             variant="contained"
             sx={{
@@ -159,6 +251,13 @@ export default function MapDetail() {
           </Button>
         </Form>
       </Container>
+      <Portal node={document && document.getElementById("loader")}>
+        {isLoading && (
+          <div className="loader-context">
+            <Spinner animation="border" variant="primary" />
+          </div>
+        )}
+      </Portal>
     </>
   );
 }
