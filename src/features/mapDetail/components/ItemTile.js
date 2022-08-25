@@ -7,6 +7,7 @@ export default function ItemTile({ onClose, onChange }) {
   const nameRef = useRef();
   const latRef = useRef();
   const lonRef = useRef();
+  const descRef = useRef();
 
   return (
     <div className={styles.rowdiv}>
@@ -17,8 +18,8 @@ export default function ItemTile({ onClose, onChange }) {
           const name = nameRef.current.value;
           const lat = latRef.current.value;
           const lon = lonRef.current.value;
-          console.log(name);
-          onChange({ name, lat, lon });
+          const desc = descRef.current.value;
+          onChange({ name, lat, lon, desc });
         }}
         id="outlined-required"
         label="Items Name"
@@ -36,7 +37,8 @@ export default function ItemTile({ onClose, onChange }) {
           const name = nameRef.current.value;
           const lat = latRef.current.value;
           const lon = lonRef.current.value;
-          onChange({ name, lat, lon });
+          const desc = descRef.current.value;
+          onChange({ name, lat, lon, desc });
         }}
         // type="number"
         id="outlined-required"
@@ -55,11 +57,32 @@ export default function ItemTile({ onClose, onChange }) {
           const name = nameRef.current.value;
           const lat = latRef.current.value;
           const lon = lonRef.current.value;
-          onChange({ name, lat, lon });
+          const desc = descRef.current.value;
+          onChange({ name, lat, lon, desc });
         }}
         // type="number"
         id="outlined-required"
         label="Longitude"
+        margin="normal"
+      />
+      <Box
+        sx={{
+          width: 8,
+        }}
+      />
+      <TextField
+        required
+        inputRef={descRef}
+        onChange={() => {
+          const name = nameRef.current.value;
+          const lat = latRef.current.value;
+          const lon = lonRef.current.value;
+          const desc = descRef.current.value;
+          onChange({ name, lat, lon, desc });
+        }}
+        // type="number"
+        id="outlined-required"
+        label="Description"
         margin="normal"
       />
       <Box
