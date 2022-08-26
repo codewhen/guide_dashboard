@@ -166,7 +166,7 @@ export default function MapDetail() {
             >
               * For creating geojson refer to{" "}
               <a href="https://www.qgis.org/en/site/forusers/download.html">
-                this
+                download
               </a>
               /<a href={`${baseUrl}/doc/GUIDELINES.pdf`}>guideline</a>.
             </span>
