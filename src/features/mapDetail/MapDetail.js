@@ -150,7 +150,7 @@ export default function MapDetail() {
               );
             })}
             <Button component="label" startIcon={<UploadIcon />}>
-              Upload GEOJSON
+              Upload GEOJSON for maps
               <input
                 type="file"
                 accept=".geojson"
@@ -158,6 +158,18 @@ export default function MapDetail() {
                 onChange={handleFileChange}
               />
             </Button>
+            <span
+              style={{
+                fontSize: 14,
+                color: "grey",
+              }}
+            >
+              * For creating geojson refer to{" "}
+              <a href="https://www.qgis.org/en/site/forusers/download.html">
+                this
+              </a>
+              /<a href={`${baseUrl}/doc/GUIDELINES.pdf`}>guideline</a>.
+            </span>
           </Box>
           <Box
             sx={{
